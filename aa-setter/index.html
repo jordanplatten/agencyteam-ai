@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remote Appointment Setter — Affluent Academy</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231b1c1f'/><text x='16' y='22' font-family='sans-serif' font-weight='700' font-size='20' fill='%2309affc' text-anchor='middle'>A</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --accent:        #09affc;
+      --accent-dim:    rgba(9, 175, 252, 0.1);
+      --accent-border: rgba(9, 175, 252, 0.28);
+      --accent-hover:  #0095d9;
+      --bg:            #1b1c1f;
+      --surface:       #25272b;
+      --border:        rgba(255, 255, 255, 0.08);
+      --text:          #f5f5f5;
+      --text-muted:    #888;
+      --font:          'Red Hat Display', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(27, 28, 31, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.18s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #fff !important;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background 0.18s !important;
+    }
+
+    .nav-cta:hover { background: var(--accent-hover) !important; }
+
+    /* HERO */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 72px 48px 56px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--accent-border);
+      border-radius: 4px;
+      padding: 5px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .hero-tag span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #aaa;
+    }
+
+    .chip svg {
+      width: 13px;
+      height: 13px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* LAYOUT */
+    hr.rule {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .section {
+      padding: 52px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section:last-of-type { border-bottom: none; }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .section h2 {
+      font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .section p {
+      color: #b0b0b0;
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 680px;
+    }
+
+    .section p + p { margin-top: 14px; }
+
+    /* BULLET LIST */
+    ul.bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    ul.bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: #b0b0b0;
+      line-height: 1.65;
+    }
+
+    ul.bullets li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 10px;
+    }
+
+    /* TRAIT CARDS */
+    .traits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .trait {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .trait:hover { border-color: var(--accent-border); }
+
+    .trait-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .trait p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: none;
+    }
+
+    /* DON'T APPLY */
+    .blocks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .block {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      background: rgba(220, 50, 50, 0.04);
+      border: 1px solid rgba(220, 50, 50, 0.14);
+      border-radius: 8px;
+    }
+
+    .block-x {
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: #d94040;
+      line-height: 1.7;
+    }
+
+    .block p {
+      font-size: 14px;
+      color: #aaa;
+      margin: 0;
+      max-width: none;
+    }
+
+    .block strong {
+      color: #f0f0f0;
+      font-weight: 600;
+    }
+
+    /* APPLY CTA */
+    .cta-section {
+      padding: 64px 0 40px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .cta-section p {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+      max-width: none;
+    }
+
+    .btn-apply {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 15px 36px;
+      border-radius: 7px;
+      transition: background 0.18s, transform 0.12s;
+    }
+
+    .btn-apply:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-apply svg { width: 15px; height: 15px; }
+
+    /* TYPEFORM */
+    .form-section { padding: 0 0 80px; }
+
+    .form-section h2 {
+      font-size: clamp(20px, 3vw, 26px);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .typeform-wrap {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      min-height: 620px;
+    }
+
+    .typeform-wrap > div {
+      min-height: 620px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer img {
+      height: 22px;
+      width: auto;
+      opacity: 0.5;
+    }
+
+    footer p, footer a {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      nav        { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero, main { padding-left: 20px; padding-right: 20px; }
+      hr.rule    { padding-left: 20px; padding-right: 20px; }
+      footer     { padding: 22px 20px; flex-direction: column; align-items: flex-start; }
+      .hero      { padding-top: 40px; padding-bottom: 36px; }
+      .traits    { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://www.affluent.academy" target="_blank" rel="noopener" class="nav-logo">
+    <img src="/assets/affluent-academy-logo.png" alt="Affluent Academy" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://www.affluent.academy" target="_blank" rel="noopener">Home</a></li>
+    <li><a href="#role">The role</a></li>
+    <li><a href="#apply" class="nav-cta">Apply now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag"><span></span>Now hiring</div>
+  <h1>Remote Appointment <em>Setter</em></h1>
+  <div class="hero-chips">
+    <div class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Full-time
+    </div>
+    <div class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Remote
+    </div>
+    <div class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Inbound qualification
+    </div>
+    <div class="chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Commission only — OTE $4k–$8k/mo
+    </div>
+  </div>
+</header>
+
+<hr class="rule" />
+
+<!-- CONTENT -->
+<main id="role">
+
+  <!-- ABOUT -->
+  <section class="section">
+    <div class="eyebrow">The role</div>
+    <h2>What this is about</h2>
+    <p>We have helped 4,500 people build or scale their agencies. Every month, hundreds more apply to join Affluent Academy. We need someone to talk to them first.</p>
+    <p>Your job is simple. People apply for the programme. You call them, find out where they are, and decide whether they are a fit. The right ones get booked in with a closer. The wrong ones get told why now is not the time.</p>
+    <p>You are the first voice every applicant hears. That matters. Get this right and the closer's job is half done before they pick up the phone.</p>
+  </section>
+
+  <!-- WHAT YOU'LL DO -->
+  <section class="section">
+    <div class="eyebrow">Responsibilities</div>
+    <h2>What you will do</h2>
+    <ul class="bullets">
+      <li>Call inbound applicants the moment their application lands. Every one is a warm lead, and speed wins. A lead called in five minutes closes far more often than one called an hour later.</li>
+      <li>Run qualification calls: where they are, what they want, what they can afford, whether now is the right time.</li>
+      <li>Decide which tier of Affluent Academy fits each applicant and route them accordingly. You own the tier call.</li>
+      <li>Book qualified applicants onto a closer's calendar with full context handed over.</li>
+      <li>Reschedule no-shows and recover anyone who drops out before the close call. Nobody falls through the cracks on your watch.</li>
+      <li>Keep accurate notes and pipeline data in the CRM after every conversation.</li>
+      <li>Attend coaching sessions, review your own calls, and implement feedback.</li>
+    </ul>
+  </section>
+
+  <!-- WHO WE WANT -->
+  <section class="section">
+    <div class="eyebrow">The right person</div>
+    <h2>Who we are looking for</h2>
+    <div class="traits">
+      <div class="trait">
+        <div class="trait-title">You read people fast</div>
+        <p>You can spend ten minutes on the phone with someone and know if they are serious. You ask the right questions and you actually listen to the answers.</p>
+      </div>
+      <div class="trait">
+        <div class="trait-title">You move quickly</div>
+        <p>When an application lands, you call within minutes. You treat every warm lead like it is the only one. Speed and follow-up are how you win.</p>
+      </div>
+      <div class="trait">
+        <div class="trait-title">You take coaching</div>
+        <p>You review your own calls. You take feedback seriously. You want to be better this month than you were last month and you do something about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REQUIREMENTS -->
+  <section class="section">
+    <div class="eyebrow">Requirements</div>
+    <h2>What you need</h2>
+    <ul class="bullets">
+      <li>Phone-based sales or qualification experience: setting, screening, inbound sales, recruiting, or similar</li>
+      <li>Comfortable on the phone for four or more hours a day</li>
+      <li>You can run a qualification conversation: ask, listen, decide, book or close out</li>
+      <li>Good judgement on price and fit. You can tell a serious buyer from a tyre-kicker quickly</li>
+      <li>You are based in the UK timezone or are available to work those hours (preferred)</li>
+      <li>You manage yourself and hit your booking targets without needing to be chased</li>
+    </ul>
+  </section>
+
+  <!-- DON'T APPLY -->
+  <section class="section">
+    <div class="eyebrow">Be honest with yourself</div>
+    <h2>Do not apply if...</h2>
+    <p>This role is not for everyone. If any of the below sounds like you, save us both the time.</p>
+    <div class="blocks">
+      <div class="block">
+        <span class="block-x">✕</span>
+        <p><strong>You hate the phone.</strong> This role is the phone. If picking up makes you nervous, you will not enjoy a single day of it.</p>
+      </div>
+      <div class="block">
+        <span class="block-x">✕</span>
+        <p><strong>You think setting is reading a script.</strong> Every applicant is different. You have to think on the call, not dial through a list on autopilot.</p>
+      </div>
+      <div class="block">
+        <span class="block-x">✕</span>
+        <p><strong>You want a guaranteed salary with no accountability.</strong> This is commission only. You earn what you book and what closes. The ceiling is high if you are good.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPLY CTA -->
+  <section class="cta-section" id="apply">
+    <h2>Think this is you?</h2>
+    <p>Fill in the form below. It takes 5 minutes.</p>
+    <a href="#application-form" class="btn-apply">
+      Apply now
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </section>
+
+  <!-- TYPEFORM -->
+  <section class="form-section" id="application-form">
+    <h2>Apply</h2>
+    <p class="form-sub">We read every application. We will be in touch within 48 hours.</p>
+    <div class="typeform-wrap">
+      <div data-tf-live="01KQWKMM4T59SDBC347ZY7TG8Y"></div>
+      <script src="//embed.typeform.com/next/embed.js"></script>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <img src="/assets/affluent-academy-logo.png" alt="Affluent Academy" />
+  <p>&copy; 2026 Affluent Academy. All rights reserved.</p>
+  <a href="https://www.affluent.academy" target="_blank" rel="noopener">affluent.academy</a>
+</footer>
+
+</body>
+</html>
