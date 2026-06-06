@@ -275,11 +275,9 @@ export async function OverviewTab({ workspaceId, from, to, funnel, rangeLabel }:
           <FunnelStage label="Confirmed"     count={ghlConfirmed ?? 0} sub="GHL — setter confirmed" />
           <FunnelArrow rate={ghlConfirmed ? pct(outcomes.attended, ghlConfirmed) : pct(outcomes.attended, callRows.filter(r => r.event_name !== 'rescheduled').length)} label="showed" />
           {/* Airtable stages */}
-          <FunnelStage label="Attended"      count={outcomes.attended}  sub="Airtable — call happened" />
+          <FunnelStage label="Attended"      count={outcomes.attended}  sub="call happened" />
           <FunnelArrow rate={pct(outcomes.closes, outcomes.attended)} label="closed" />
-          <FunnelStage label="Closes"        count={outcomes.closes}   sub="Airtable — revenue signed" />
-          <FunnelArrow rate={pct(Math.round(totalCash / Math.max(totalRevenue, 1) * 100), 100)} label="collected" />
-          <FunnelStage label="Cash collected" count={outcomes.closes} sub={fmtGBP(totalCash)} />
+          <FunnelStage label="Closes"        count={outcomes.closes}   sub="revenue signed" />
         </div>
 
         {fetchError && (
