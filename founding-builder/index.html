@@ -138,7 +138,16 @@
   <!-- Typeform Embed -->
   <div class="typeform-embed animate">
     <p style="font-size: 14px; color: #808080; margin-bottom: 16px; text-align: center;">We read every application. Strong applications hear back within days.</p>
-    <iframe src="https://affluentacademy.typeform.com/to/PDufZZNR" allowfullscreen></iframe>
+    <iframe id="apply-form" src="https://affluentacademy.typeform.com/to/PDufZZNR#source=direct" allowfullscreen></iframe>
+    <script>
+      (function () {
+        var src = new URLSearchParams(window.location.search).get('src');
+        if (src) {
+          var f = document.getElementById('apply-form');
+          f.src = 'https://affluentacademy.typeform.com/to/PDufZZNR#source=' + encodeURIComponent(src);
+        }
+      })();
+    </script>
   </div>
 
   <!-- Footer -->
